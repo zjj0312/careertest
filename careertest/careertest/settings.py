@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'cjb',
     'fxj',
     'pjs',
-    'qsl',
+    'qsj',
     'zjj',
 
 
