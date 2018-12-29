@@ -18,4 +18,4 @@ class Answer(models.Model):
     factor8_value=models.DecimalField(max_digits=5,decimal_places=2)
     factor9_value=models.DecimalField(max_digits=5,decimal_places=2)
     factor10_value=models.DecimalField(max_digits=5,decimal_places=2)
-    isdelete=models.Boolean
+    isdelete=models.BooleanField(default=False)
