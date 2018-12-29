@@ -12,11 +12,11 @@
 3、阶段性的把本地的代码推送到github上
     先保证本地的文件都提交了，工作区干净
     1）执行git pull从远程更新本地diam
-        git pull                \\从github拉取文件更新本地代码
+        git pull origin div               \\从github拉取文件更新本地代码
             执行成功后再执行第2）步
             执行失败了，可能就是有冲突
 
     2）执行git push把本地代码推送到远程github上
-        git push
+        git push origin div
         没报错（fatal）就表示提交成功
 
