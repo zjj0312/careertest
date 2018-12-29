@@ -27,3 +27,5 @@ class Report(models.Model):
     starttime = models.DateTimeField()
     endtime = models.DateTimeField()
 
+
+
