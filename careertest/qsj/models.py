@@ -1,46 +1,43 @@
 from django.db import models
-
 # Create your models here.
-class UserAdmin(models.model):
+class UserAdmin(models.Model):
 	user=models.CharField(max_length=20)
 	password=models.CharField(max_length=20)
 	email=models.EmailField()
+	isdelete=models.BooleanField(default=False)
 
-class UserHR(models.model):
+
+class UserHR(models.Model):
 	user=models.CharField(max_length=20)
 	password=models.CharField(max_length=20)
 	email=models.EmailField()
 	company_id=models.ForeignKey(to='Company',on_delete=models.CASCADE)
+	isdelete=models.BooleanField(default=False)
 
-class UserExpert(models.model):
+class UserExpert(models.Model):
 	user=models.CharField(max_length=20)
 	password=models.CharField(max_length=20)
 	email=models.EmailField()
+	isdelete=models.BooleanField(default=False)
 
-class Company(models.model):
+
+class Company(models.Model):
 	logo=models.ImageField()
 	name=models.CharField(max_length=100)
 	info=models.TextField()
-class Factor(models.model):
-	name=models.FileField(max_length=100)
+	isdelete=models.BooleanField(default=False)
 
-class Moding(models.model):
-	name=models.FileField(max_length=100)
-	factor1_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor2_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor3_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor4_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor5_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor6_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor7_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor8_id=models.ForeignKey(to='Factor',on_delete=models.CASCADE)
-	factor1_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor2_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor3_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor4_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor5_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor6_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor7_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
-	factor8_ex_value=models.DecimalField(max_digits=5,decimal_places=2)
+class Factor(models.Model):
+	name=models.CharField(max_length=100)
+	isdelete=models.BooleanField(default=False)
 
 
+class Moding(models.Model):
+	name=models.CharField(max_length=100)
+	isdelete=models.BooleanField(default=False)
+
+class ModelDesign(models.Model):
+	moding_id = models.ForeignKey(to='Moding',on_delete=models.CASCADE)
+	factor_id = models.ForeignKey(to='Factor', on_delete=models.CASCADE)
+	factor_ex_value = models.DecimalField(max_digits=5, decimal_places=2)
+	isdelete=models.BooleanField(default=False)
