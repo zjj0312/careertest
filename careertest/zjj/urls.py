@@ -20,5 +20,6 @@ from . import views
 
 
 urlpatterns = [
+    url('company/',views.company),
     url('index/',views.index)
 ]
