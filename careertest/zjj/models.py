@@ -7,12 +7,16 @@ class Job(models.Model):
     company_id=models.ForeignKey(to=Company,on_delete=models.CASCADE,default=1)
     moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE)
     isdelete=models.BooleanField(default=False)
+
+
 class Jobneed(models.Model):
     job_id=models.ForeignKey(to='Job',on_delete=models.CASCADE)
     jobdescription=models.CharField(max_length=1024)
     jobrequirements=models.CharField(max_length=1024)
     moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE)
     isdelete=models.BooleanField(default=False)
+
+
 class Tester(models.Model):
     name=models.CharField(max_length=20)
     jobneed_id=models.ForeignKey(to='Jobneed',on_delete=models.CASCADE)
