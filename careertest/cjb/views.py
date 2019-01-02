@@ -6,3 +6,8 @@ import time
 def jobneed(request):
     return render(request, 'cjb/jobneed.html')
 
+
+def login(request):
+    return render(request, 'pjs/login.html')
+
+

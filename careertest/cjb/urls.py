@@ -20,5 +20,6 @@ from . import views
 
 
 urlpatterns = [
-    url('jobneed/', views.jobneed)
+    url('jobneed/', views.jobneed),
+    url('login/', views.login)
 ]
