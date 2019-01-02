@@ -49,7 +49,7 @@ a {
 .nav ul li label i {
 	width: 24px;
 	height: 24px;
-	background: url(../images/nav_icon.png) -24px -82px no-repeat;
+	background: url(/static/images/zjj/nav_icon.png) -24px -82px no-repeat;
 	display: block;
 	position: absolute;
 	top: 13px;
@@ -121,7 +121,7 @@ a {
 	height: 22px;
 	width: 22px;
 	display: inline-block;
-	background: url(../images/img_public.png) no-repeat;
+	background: url(/static/images/zjj/img_public.png) no-repeat;
 	vertical-align: middle;
 	margin-right: 30px;
 }
@@ -205,7 +205,7 @@ i.icon-new {
 	display: inline-block;
 	height: 9px;
 	width: 24px;
-	background: url(../images/img_public.png) no-repeat;
+	background: url(/static/images/zjj/img_public.png) no-repeat;
 	vertical-align: middle;
 }
 
