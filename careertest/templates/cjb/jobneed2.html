@@ -1,31 +1,38 @@
 {% extends './base_hr.html' %}
 
-{% block pg_header %}
+{% block pg_head %}
+
+<!--样式引用自己写的文件或直接写在headblock中的style中都行-->
+<!--<link rel="stylesheet" type="text/css" href="/static/css/cjb/jobneed.css" charset="utf8">-->
+
+
+    <style>
+        p{
+            margin:0px;
+        }
+        .panel-body {
+            padding: 5px 15px;
+        }
+        .panel-heading {
+            padding: 5px 15px;
+        }
+
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            padding: 8px 15px;
+        }
+        hr{
+            margin: 10px 0px;
+        }
+    </style>
+
 {% endblock %}
 
-<style>
-    p{
-        margin:0px;
-    }
-    .panel-body {
-        padding: 5px 15px;
-    }
-    .panel-heading {
-        padding: 5px 15px;
-    }
 
-    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-        padding: 8px 15px;
-    }
-    hr{
-        margin: 10px 0px;
-    }
 
-</style>
 {% block pg_body %}
             <div>
                 <div class="btn-group col-xs-4" style="padding-left: 0px;" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default">新增职位</button>
+                    <button type="button" id="btn_add" class="btn btn-default">新增职位</button>
                     <button type="button" class="btn btn-default">刷新</button>
                 </div>
 
@@ -92,52 +99,68 @@
 
 
 
+<!--新增按钮弹框-->
+<div class="modal fade" id="Modal_add" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" action="#">
+            <div class="modal-header" style="height: 56px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="font-weight: bold">新增</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;">
+                <div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
+                  <span class="input-group-addon" style="font-weight: bold" id="basic-addon1">职位名称</span>
+                  <input type="text" class="form-control" placeholder="职位名称" aria-describedby="basic-addon1">
+                </div>
 
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-              <div class="panel panel-default">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <div class="panel panel-primary" role="tab" id="headingOne">
+                <div class="col-xs-12" style="margin-bottom:15px;padding: 0px 10px">
+                    <div class="panel panel-info" style="width: 49%;float: left;padding: 0px;margin-bottom: 10px;">
+                        <div class="panel-heading">
+                        <h3 class="panel-title">职位描述</h3>
+                      </div>
+                      <div class="panel-body" style="padding: 0px;">
+                        <textarea name="jobneed_describe" style="border: 0px;rows: 10;" class="form-control" id="jn_describe" placeholder="职位描述"></textarea>
+                      </div>
+
+                    </div>
+                    <div class="" style="float: left;width: 2%">&nbsp;</div>
+
+                    <div class="panel panel-info" style="width: 49%;float: left; padding: 0px;margin-bottom: 10px;">
                       <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <span>python数据分析师</span>
-                        </h4>
+                        <h3 class="panel-title">职位要求</h3>
+                      </div>
+                      <div class="panel-body" style="padding: 0px;">
+                        <textarea name="jobneed_describe" style="border: 0px;rows: 10;" class="form-control" id="jn_describe" placeholder="职位要求"></textarea>
                       </div>
                     </div>
-                  </a>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                  <div class="panel-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
                 </div>
-              </div>
 
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                  <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                      Collapsible Group Item #2
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                  <div class="panel-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingThree">
-                  <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                      Collapsible Group Item #3
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                  <div class="panel-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
-                </div>
-              </div>
+
+
             </div>
+            <div class="modal-footer" style="height: 65px;">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>关闭</button>
+                <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span aria-hidden="true"></span>保存</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
+
+{% block pg_script %}
+    <!--调用自己写的脚本，或直接在下面写都行-->
+    <!--<script type="text/javascript" src="/static/js/cjb/jobneed.js"></script>-->
+
+    <script>
+    $('#btn_add').click(function () {
+         $('#myModalLabel').text('新增职位需求')
+         $('#Modal_add').modal();
+    });
+    </script>
+
+{% endblock %}
+
+

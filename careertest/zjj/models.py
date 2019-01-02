@@ -1,6 +1,7 @@
 from django.db import models
 from qsj.models import Company,Moding
 
+
 # Create your models here.
 class Job(models.Model):
     jobname=models.CharField(max_length=100)
@@ -11,10 +12,14 @@ class Job(models.Model):
 
 class Jobneed(models.Model):
     job_id=models.ForeignKey(to='Job',on_delete=models.CASCADE)
+    jobneed_name = models.CharField(max_length=100)     # 职位需求名称，默认和关联的职位名称一致
     jobdescription=models.CharField(max_length=1024)
     jobrequirements=models.CharField(max_length=1024)
     moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE)
     isdelete=models.BooleanField(default=False)
+    create_time = models.DateTimeField(auto_now=True)   # 创建时间
+    create_user_id = models.CharField(max_length=100)   # 创建人，可以关联到hr
+    jobneed_status = models.IntegerField()  # 职位需求状态表，1：招聘中，0：招聘结束
 
 
 class Tester(models.Model):
