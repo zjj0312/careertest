@@ -23,7 +23,7 @@ class Jobneed(models.Model):
 
 class Tester(models.Model):
     name=models.CharField(max_length=20)
-    jobneed_id=models.ForeignKey(to='Jobneed', on_delete=models.CASCADE,null=True,blank=True)
+    jobneed_id=models.ForeignKey(to='Jobneed', on_delete=models.CASCADE,null=True,blank=True,related_name='jn_id')
     sex=models.BooleanField(default=True)
     comment=models.CharField(max_length=1024)
     create_hr_id = models.ForeignKey(to=UserHR, on_delete=models.CASCADE, null=True, blank=True)   # 创建人，可以关联到hr
