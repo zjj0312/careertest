@@ -21,5 +21,7 @@ from . import views
 
 urlpatterns = [
     url('company/',views.company),
-    url('index/',views.index)
+    url('index/',views.index),
+    url('demo/',views.demo),
+    url('index2/',views.index2)
 ]
