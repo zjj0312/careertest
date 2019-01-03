@@ -10,6 +10,7 @@ class UserAdmin(models.Model):
 class UserHR(models.Model):
 	user=models.CharField(max_length=20)
 	password=models.CharField(max_length=20)
+	hrname = models.CharField(max_length=100,null=True,blank=True)
 	email=models.EmailField()
 	company_id=models.ForeignKey(to='Company',on_delete=models.CASCADE)
 	isdelete=models.BooleanField(default=False)

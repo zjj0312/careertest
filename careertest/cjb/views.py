@@ -38,9 +38,23 @@ def jobneed_add(request):
         # jn_data.isdelete = False
         # jn_data.create_time = ''
 
-        jn_data.job_id = Job.objects.get(pk=1)
-        jn_data.moding_id = Moding.objects.get(pk=1)
-        jn_data.create_user_name = UserAdmin.objects.get(pk=1)
+        try:
+            jn_data.job_id = Job.objects.get(jobname=jn_name)
+        except Exception:
+            jn_data.job_id = None
+
+        try:
+            jn_data.moding_id = Moding.objects.get(name=jn_model)
+        except Exception:
+            jn_data.moding_id = None
+
+        try:
+            create_name = request.sessions.get('HR')
+            jn_data.create_user_name = UserHR.objects.get(user=create_name)
+        except Exception:
+            jn_data.create_user_name = UserHR.objects.filter(pk=1)
+            print(jn_data.create_user_name, '------')
+
         if jn_model:
             jn_data.jobneed_status = 1
         else:

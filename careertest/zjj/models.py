@@ -14,7 +14,7 @@ class Jobneed(models.Model):
     jobneed_name = models.CharField(max_length=100,default='')     # 职位需求名称，默认和关联的职位名称一致
     jobdescription=models.CharField(max_length=1024)
     jobrequirements=models.CharField(max_length=1024)
-    moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE,null=True,blank=True)
+    moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE, null=True, blank=True)
     isdelete=models.BooleanField(default=False)
     create_time = models.DateTimeField(auto_now=True)   # 创建时间
     create_hr_id = models.ForeignKey(to=UserHR, on_delete=models.CASCADE, null=True, blank=True)   # 创建人，可以关联到hr
