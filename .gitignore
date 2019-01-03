@@ -6,7 +6,7 @@ __pycache__/
 */.idea
 # C extensions
 *.so
-
+.~lock.数据库表设置*
 .env
 .venv
 env/
