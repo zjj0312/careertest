@@ -21,7 +21,16 @@ from . import views
 
 urlpatterns = [
     url('jobneed3/', views.jobneed3),
+    url('jobneed2/', views.jobneed2),
     url('jobneed/', views.jobneed_query),
     url('jobneed_add/', views.jobneed_add),
+    url('jobneed_edit/', views.jobneed_edit),
+    url('jobneed_del/', views.jobneed_del),
+    url('tester/', views.tester_query),
+    url('tester_add/', views.tester_add),
+    url('tester_edit/', views.tester_edit),
+    url('tester_del/', views.tester_del),
+    url('company/', views.company),
+    url('main/', views.main),
     url('login/', views.login)
 ]

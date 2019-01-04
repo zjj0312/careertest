@@ -1,5 +1,6 @@
 # coding=utf8
 from django.shortcuts import render, redirect
+from django.http import HttpResponse,JsonResponse
 import time
 from cjb.models import Testchart, Report
 from zjj.models import Job, Jobneed, Tester
@@ -8,6 +9,7 @@ from fxj.models import Qustion, Answer
 from django.db import models
 from django.db.models import *
 from django.core.paginator import Paginator
+import json
 
 
 # Create your views here.
@@ -15,15 +17,39 @@ def jobneed3(request):
     return render(request, 'cjb/jobneed3.html')
 
 
+def jobneed2(request):
+    return render(request, 'cjb/base_hr2.html')
+
+
+def main(request):
+    return render(request, 'cjb/base_hr2.html')
+
+
+def company(request):
+    return render(request, 'cjb/company2.html')
+
+
 def jobneed_query(request):
-    # jns =Jobneed.objects.filter(create_hr_id__user='HR').values('create_hr_id__user', 'create_time', 'jobneed_name', 'jobneed_status')
-    jns =Jobneed.objects.values('create_hr_id__user', 'create_time', 'jobneed_name', 'jobneed_status')
+    if request.is_ajax():
+        # jns = Jobneed.objects.values('id', 'create_hr_id__user', 'create_time', 'jobneed_name', 'jobneed_status')
+        # # 遍历元素获取每个职位需求的各种状态的数据
+        # for jn in jns:
+        #     c_invite = Tester.objects.filter(Q(jobneed_id=jn['id']) & Q(status=2)).count()
+        #     c_tested = Tester.objects.filter(Q(jobneed_id=jn['id']) & Q(status=3)).count()
+        #     c_selected = Tester.objects.filter(Q(jobneed_id=jn['id']) & Q(status=4)).count()
+        #     jn.update({'c_invite': c_invite, 'c_tested': c_tested, 'c_offer': c_selected})
 
-    # jns1 = Jobneed.objects.annotate(c_invite=Count(''))
-    # a = Tester.objects.filter(jobneed_id__jobneed_name='撒旦法啊').count()
+        # 下面这个语句也可以直接获取到每个职位需求的各种状态的数据
+        jns = Jobneed.objects.filter(isdelete=False).annotate(c_invite=Count('tester', filter=Q(tester__status=2)),
+                                       c_tested=Count('tester', filter=Q(tester__status=3)),
+                                       c_selected=Count('tester', filter=Q(tester__status=4)),
+                                       c_deselect=Count('tester', filter=Q(tester__status=4)))
 
-    context = {'ob_jns': jns}
-    return render(request, 'cjb/jobneed.html', context)
+        print(jns, '-------jns-----')
+        context = {'ob_jns': jns}
+        return render(request, 'cjb/jobneed2.html', context)
+    else:
+        return redirect('/cjb/main/')
 
 
 def jobneed_add(request):
@@ -66,21 +92,46 @@ def jobneed_add(request):
 
     jns = Jobneed.objects.all()
     context = {'ob_jns': jns}
-    return render(request, 'cjb/jobneed.html', context)
-    # let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_requ':jn_requ, 'jn_model':jn_model, }
-    # job_id=models.ForeignKey(to='Job',on_delete=models.CASCADE,null=True,blank=True)
-    # jobneed_name = models.CharField(max_length=100,default='')     # 职位需求名称，默认和关联的职位名称一致
-    # jobdescription=models.CharField(max_length=1024)
-    # jobrequirements=models.CharField(max_length=1024)
-    # moding_id=models.ForeignKey(to=Moding,on_delete=models.CASCADE,null=True,blank=True)
-    # isdelete=models.BooleanField(default=False)
-    # create_time = models.DateTimeField(auto_now=True)   # 创建时间
-    # create_user_name = models.CharField(max_length=100,default='')   # 创建人，可以关联到hr
-    # jobneed_status = models.IntegerField(default=1)  # 职位需求状态表，1：招聘中，0：招聘结束，2：模型定制中
+    return render(request, 'cjb/jobneed2.html', context)
 
 
 def jobneed_edit(request):
     return render(request, 'cjb/jobneed.html')
+
+
+def jobneed_del(request):
+    if request.is_ajax():
+        jn_id = request.POST.get('id')
+    try:
+        jn_tobedel = Jobneed.objects.filter(isdelete=False).get(pk=jn_id)
+        jn_tobedel.isdelete = True
+        jn_tobedel.save()
+        # print(Jobneed.objects.get(pk=jn_id).isdelete,'-----isdelete----')
+        context = {'del_result': 'delete success!'}
+    except Exception:
+        context = {'del_result': 'delete fail!'}
+
+    # return HttpResponse(context)
+    return JsonResponse(context)
+
+
+def tester_query(request):
+    tes = Tester.objects.filter().values('create_hr_id__user', 'status', 'sex', 'jobneed_id__jobneed_name', 'name')
+    context = {'obj_tes': tes}
+    print(context, '---testquery---')
+    return render(request, 'cjb/tester.html', context)
+
+
+def tester_add(request):
+    return render(request, 'cjb/tester.html')
+
+
+def tester_edit(request):
+    return render(request, 'cjb/tester.html')
+
+
+def tester_del(request):
+    return render(request, 'cjb/tester.html')
 
 
 
