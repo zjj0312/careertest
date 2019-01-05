@@ -58,6 +58,7 @@ def jobneed_add(request):
         jn_desc = request.POST.get('jn_desc')
         jn_requ = request.POST.get('jn_requ')
         jn_model = request.POST.get('jn_model')
+        jn_jb_id = request.POST.get('jn_jb_id')
 
         jn_data = Jobneed()
         jn_data.jobneed_name = jn_name
@@ -67,12 +68,12 @@ def jobneed_add(request):
         # jn_data.create_time = ''
 
         try:
-            jn_data.job_id = Job.objects.get(jobname=jn_name)
+            jn_data.job_id = Job.objects.get(pk=int(jn_jb_id))
         except Exception:
             jn_data.job_id = None
 
         try:
-            jn_data.moding_id = Moding.objects.get(name=jn_model)
+            jn_data.moding_id = Moding.objects.get(pk=int(jn_model))
         except Exception:
             jn_data.moding_id = None
 
@@ -83,7 +84,7 @@ def jobneed_add(request):
             jn_data.create_hr_id = UserHR.objects.get(pk=1)
             print(jn_data.create_hr_id, '---create_hr_id---')
 
-        if jn_model:
+        if jn_model == (None or ''):
             jn_data.jobneed_status = 1
         else:
             jn_data.jobneed_status = 2
@@ -130,7 +131,6 @@ def get_job_list(request):
         context = json.dumps(list(jbs))
         # print(context, '-----contest------')
     return JsonResponse(context, safe=False)
-
 
 
 def tester_query(request):

@@ -166,7 +166,7 @@
 
                     <div class="form-group col-xs-12" style="padding: 0px 10px;">
                       <span style="float: left;width: 30%;">应聘岗位：</span><select id="te_jn_sel" class="form-control " style="float: left;" name="te_jn_select">
-                        <option id="no_option" value="0">待定</option>-->
+
                         <!--{% if ob_jns.length == 0 %}<option id="no_option">没有选项</option>-->
                         <!--{% else %}{% for jn in ob_jns %}-->
                         <!--<option id="{{ jn.id }}">{{ jn.name }}</option>-->
@@ -244,6 +244,8 @@
                 // alert('success')
                 var data = JSON.parse(data1)    //
                 // console.log(data,data.length,data.constructor,data[0].id)
+                $('#te_jn_sel').empty()
+                $('#te_jn_sel').append('<option id="no_option" value="0">待定</option>-->')
                 if(data.length == 0){
                     $('#te_jn_sel').append('<option id="no_option" value="0">'+'没有职位'+'</option>')
                 }

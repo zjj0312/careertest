@@ -281,8 +281,9 @@
         var jn_name = $('#jn_name').val()
         let jn_desc = $('#jn_describe').val()
         let jn_requ = $('#jn_require').val()
-        let jn_model = $('#jn_md_select option:selected').val()
-        let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_requ':jn_requ, 'jn_model':jn_model, }
+        let jn_model_id = $('#jn_md_select option:selected').val()
+        let jn_jb_id = $('#job_sel option:selected').val()
+        let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_jb_id':jn_jb_id, 'jn_requ':jn_requ, 'jn_model':jn_model_id, }
 
         console.log(data_jn_add,'----data_jn_add--------')
 
