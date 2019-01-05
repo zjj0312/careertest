@@ -1,4 +1,4 @@
-# coding=utf8
+# coding=utf-8
 from django.shortcuts import render, redirect
 from django.http import HttpResponse,JsonResponse
 import time
@@ -40,10 +40,10 @@ def jobneed_query(request):
         #     jn.update({'c_invite': c_invite, 'c_tested': c_tested, 'c_offer': c_selected})
 
         # 下面这个语句也可以直接获取到每个职位需求的各种状态的数据
-        jns = Jobneed.objects.filter(isdelete=False).annotate(c_invite=Count('tester', filter=Q(tester__status=2)),
-                                       c_tested=Count('tester', filter=Q(tester__status=3)),
-                                       c_selected=Count('tester', filter=Q(tester__status=4)),
-                                       c_deselect=Count('tester', filter=Q(tester__status=4)))
+        jns = Jobneed.objects.filter(isdelete=False).annotate(c_invite=Count('tester', filter=Q(tester__status__gte=1)),
+                                       c_tested=Count('tester', filter=(Q(tester__status__gte=2)&Q(tester__status__lte=3))),
+                                       c_selected=Count('tester', filter=(Q(tester__status=3))),
+                                       c_deselect=Count('tester', filter=Q(tester__status=4))).order_by('-id')
 
         print(jns, '-------jns-----')
         context = {'ob_jns': jns}
@@ -115,14 +115,65 @@ def jobneed_del(request):
     return JsonResponse(context)
 
 
+def get_jobneed_list(request):
+    if request.is_ajax():
+        jns = Jobneed.objects.filter(isdelete=False).values('id', 'jobneed_name')
+        # context = {'ob_jns': jns}
+        context = json.dumps(list(jns))
+        # print(context, '-----contest------')
+    return JsonResponse(context, safe=False)
+
+
+def get_job_list(request):
+    if request.is_ajax():
+        jbs = Job.objects.filter(isdelete=False).values('id', 'jobname', 'moding_id', 'moding_id__name')
+        context = json.dumps(list(jbs))
+        # print(context, '-----contest------')
+    return JsonResponse(context, safe=False)
+
+
+
 def tester_query(request):
-    tes = Tester.objects.filter().values('create_hr_id__user', 'status', 'sex', 'jobneed_id__jobneed_name', 'name')
+    tes = Tester.objects.filter().order_by('-id').values('create_hr_id__user', 'status', 'sex', 'jobneed_id__jobneed_name', 'name')
     context = {'obj_tes': tes}
-    print(context, '---testquery---')
+    # print(context, '---testquery---')
     return render(request, 'cjb/tester.html', context)
 
 
 def tester_add(request):
+    te_name = request.POST.get('te_name')
+    te_sex = request.POST.get('te_sex')
+    te_comment = request.POST.get('te_comment')
+    te_jn_select = request.POST.get('te_jn_select')
+
+    te = Tester()
+    te.name = te_name
+    te.sex = te_sex
+    te.comment = te_comment
+    try:
+        te.jobneed_id = Jobneed.objects.get(pk=int(te_jn_select))
+    except Exception:
+        te.jobneed_id = None
+
+    try:
+        create_name = request.sessions.get('HR')
+        te.create_hr_id = UserHR.objects.get(user=create_name)
+    except Exception:
+        te.create_hr_id = UserHR.objects.get(pk=1)
+        print(te.create_hr_id, '---create_hr_id---')
+
+    try:
+        invite = request.POST.get('te_invite')
+        print(invite, 'invite----')
+        if invite != ('' or None):
+            te.status = 0
+        else:
+            te.status = 1
+    except Exception:
+        te.status = 0
+
+    te.save()
+    print(te, 'testeradd-------')
     return render(request, 'cjb/tester.html')
 
 
@@ -134,10 +185,7 @@ def tester_del(request):
     return render(request, 'cjb/tester.html')
 
 
-
 def login(request):
-
-
 
     return render(request, 'pjs/login.html')
 

@@ -135,8 +135,7 @@
                     <a href="#">查看</a>
                     <a href="#">编辑</a>
                     <a href="#">删除</a>
-                    <a href="#">{% if te.status < 1 %}邀请测试{% elif te.status > 1 %}查看测试报告{% endif %}</a>
-                    <!--<a href="#">查看测试报告</a>-->
+                    {% if te.status < 1 %}<a href="#">邀请测试</a>{% elif te.status > 1 %}<a href="#">查看测试报告</a>{% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -148,58 +147,55 @@
 
 <!--新增按钮弹框-->
 <div class="modal fade" id="Modal_add" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="height: 56px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title" id="myModalLabel" style="font-weight: bold">新增</h4>
             </div>
-            <div class="modal-body" style="height: 400px;">
-                <div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
-                    <span class="input-group-addon" style="font-weight: bold" id="basic-addon1">职位名称</span>
-                    <input type="text" id="jn_name" name="jn_name" class="form-control" placeholder="职位名称" aria-describedby="basic-addon1">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" id="sel_job_tem" type="button"><span style="font-weight: bold">选择工作模板</span></button>
-                    </span>
-                </div>
-
-                <div class="col-xs-12" style="margin-bottom:15px;padding: 0px 10px">
-                    <div class="panel panel-info" style="width: 49%;float: left;padding: 0px;margin-bottom: 10px;">
-                        <div class="panel-heading">
-                        <h3 class="panel-title">职位描述</h3>
-                      </div>
-                      <div class="panel-body" style="padding: 0px;">
-                        <textarea name="jn_describe" required="True" id="jn_describe" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位描述"></textarea>
-                      </div>
-
+            <form action="/cjb/tester_add/" method="post">
+                {% csrf_token %}
+                <div class="modal-body" style="height: 400px;">
+                    <div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
+                        <span class="input-group-addon" style="font-weight: bold" id="basic-addon1">姓名</span>
+                        <input type="text" id="te_name" name="te_name" required="required" class="form-control" placeholder="求职者姓名" aria-describedby="basic-addon1">
                     </div>
-                    <div class="" style="float: left;width: 2%">&nbsp;</div>
-
-                    <div class="panel panel-info" style="width: 49%;float: left; padding: 0px;margin-bottom: 10px;">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">职位要求</h3>
-                      </div>
-                      <div class="panel-body" style="padding: 0px;">
-                        <textarea name="jn_require" id="jn_require" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位要求"></textarea>
-                      </div>
+                    <div class="form-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
+                        性别：<input type="radio" name="te_sex" checked="checked" value="1"/>男&nbsp;<input type="radio" name="te_sex" value="0"/>女
                     </div>
-                </div>
 
-				<div class="form-group">
-					<div class="col-lg-6">
-                        <div class="input-group">
-                          <span class="input-group-btn">
-                              <button class="btn btn-info" type="button"><span style="font-weight: bold">选择测试模型</span></button>
-                          </span>
-                          <input type="text" name="jn_model" id="jn_model" class="form-control" placeholder="请选择">
-                        </div><!-- /input-group -->
-                    </div><!-- /.col-lg-6 -->
-				</div>
-            </div>
-            <div class="form-group modal-footer" style="height: 65px;">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>关闭</button>
-                <button type="submit" id="submit_add_jn" class="btn btn-primary" data-dismiss="modal"><span aria-hidden="true"></span>保存</button>
-            </div>
+                    <div class="form-group col-xs-12" style="padding: 0px 10px;">
+                      <span style="float: left;width: 30%;">应聘岗位：</span><select id="te_jn_sel" class="form-control " style="float: left;" name="te_jn_select">
+                        <option id="no_option" value="0">待定</option>-->
+                        <!--{% if ob_jns.length == 0 %}<option id="no_option">没有选项</option>-->
+                        <!--{% else %}{% for jn in ob_jns %}-->
+                        <!--<option id="{{ jn.id }}">{{ jn.name }}</option>-->
+                        <!--{% endfor %}{% endif %}-->
+                      </select>
+                    </div>
+
+                    <div class="col-xs-12" style="margin-bottom:15px;padding: 0px 10px">
+                        <div class="panel panel-info" style="padding: 0px;margin-bottom: 10px;">
+                            <div class="panel-heading">
+                            <h3 class="panel-title">备注</h3>
+                          </div>
+                          <div class="panel-body" style="padding: 0px;">
+                            <textarea name="te_comment" required="True" id="te_comment" style="border: 0px;resize: none;" rows="3" class="form-control" placeholder="备注"></textarea>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-xs-12" style="padding: 0px 10px;">
+                        <input type="checkbox" name="te_invite" value="invite">&nbsp;现在邀请测试
+                    </div>
+
+                </div>
+                <div class="form-group modal-footer" style="height: 65px;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>关闭</button>
+                    <button type="submit" id="submit_add_jn" class="btn btn-primary" ><span aria-hidden="true"></span>保存</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
@@ -236,34 +232,63 @@
 
     <script>
 
-    // 添加jobneed，弹框
+    // 添加tester，弹框
     $('#btn_add').click(function () {
-         $('#myModalLabel').text('新增职位需求')
-         $('#Modal_add').modal();
-    });
-
-    // 提交职位需求
-    $('#submit_add_jn').click(function () {
-        var jn_name = $('#jn_name').val()
-        let jn_desc = $('#jn_describe').val()
-        let jn_requ = $('#jn_require').val()
-        let jn_model = $('#jn_model').val()
-        let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_requ':jn_requ, 'jn_model':jn_model, }
-
-        console.log(data_jn_add,'----data_jn_add--------')
-
+        // ajax获取职位需求列表
         $.ajaxSetup({data:{csrfmiddlewaretoken:'{{ csrf_token }}'}})
         $.ajax({
             type:'POST',
-            url: '/cjb/jobneed_add/',
-            data: data_jn_add,
-            success(result) {
-                alert('success')
-            },error(result){
+            url: '/cjb/get_jn_list/',
+            dataType: 'JSON',
+            success(data1) {
+                // alert('success')
+                var data = JSON.parse(data1)    //
+                // console.log(data,data.length,data.constructor,data[0].id)
+                if(data.length == 0){
+                    $('#te_jn_sel').append('<option id="no_option" value="0">'+'没有职位'+'</option>')
+                }
+                else{
+                    for(var i = 0; i < data.length; i++){
+                        // console.log(data[i].id,data[i].jobneed_name,'----')
+                        $('#te_jn_sel').append('<option value='+data[i].id+'>'+data[i].jobneed_name+'</option>')
+                    }
+                    // 用下面的for-in也可以达到目的
+                    // for(var jn in data){
+                    //     console.log(data[jn].id,data[jn].jobneed_name,'-123---')
+                    //     // $('#te_jn_sel').append('<option id='+data[i].id+'>'+data[i].jobneed_name+'</option>')
+                    // }
+                }
+            },error(data){
                 alert('fail')
             }
-        })
+        });
+
+        $('#myModalLabel').text('新增测试人员')
+        $('#Modal_add').modal();
     });
+
+    // // 提交职位需求
+    // $('#submit_add_jn').click(function () {
+    //     var jn_name = $('#jn_name').val()
+    //     let jn_desc = $('#jn_describe').val()
+    //     let jn_requ = $('#jn_require').val()
+    //     let jn_model = $('#jn_model').val()
+    //     let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_requ':jn_requ, 'jn_model':jn_model, }
+    //
+    //     console.log(data_jn_add,'----data_jn_add--------')
+    //
+    //     $.ajaxSetup({data:{csrfmiddlewaretoken:'{{ csrf_token }}'}})
+    //     $.ajax({
+    //         type:'POST',
+    //         url: '/cjb/jobneed_add/',
+    //         data: data_jn_add,
+    //         success(result) {
+    //             alert('success')
+    //         },error(result){
+    //             alert('fail')
+    //         }
+    //     })
+    // });
 
     // 选择jobneed模板 模态框
     $('#sel_job_tem').click(function () {

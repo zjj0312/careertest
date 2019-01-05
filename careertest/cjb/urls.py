@@ -20,7 +20,7 @@ from . import views
 
 
 urlpatterns = [
-    url('jobneed3/', views.jobneed3),
+    url('jobneed3/', views.jobneed3,name="home"),
     url('jobneed2/', views.jobneed2),
     url('jobneed/', views.jobneed_query),
     url('jobneed_add/', views.jobneed_add),
@@ -32,5 +32,7 @@ urlpatterns = [
     url('tester_del/', views.tester_del),
     url('company/', views.company),
     url('main/', views.main),
-    url('login/', views.login)
+    url('login/', views.login),
+    url('get_jn_list/', views.get_jobneed_list),
+    url('get_job_list/', views.get_job_list),
 ]

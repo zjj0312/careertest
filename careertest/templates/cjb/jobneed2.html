@@ -106,13 +106,13 @@
                 <div class="panel-body">
                     <ul class="list-group" >
                         <li class="list-group-item list-group-item-warning col-xs-4">
-                            已邀请测试人数：<a href="#"><span class="badge">{{ jns.c_invite }}</span></a>
+                            已邀请测试人数：<a href="#"><span class="badge" style="background-color: #00a2ff">{{ jns.c_invite }}</span></a>
                         </li>
                         <li class="list-group-item list-group-item-info col-xs-4">
-                            已完成测试人数：<a href="#"><span class="badge">{{ jns.c_tested }}</span></a>
+                            已完成测试人数：<a href="#"><span class="badge" style="background-color: #00a2ff">{{ jns.c_tested }}</span></a>
                         </li>
                         <li class="list-group-item list-group-item-success col-xs-4">
-                            已通过测试人数：<a href="#"><span class="badge">{{ jns.c_selected }}</span></a>
+                            已通过测试人数：<a href="#"><span class="badge" style="background-color: #00a2ff">{{ jns.c_selected }}</span></a>
                         </li>
                     </ul><br><br>
                     <div>
@@ -147,7 +147,7 @@
             <div class="modal-body" style="height: 400px;">
                 <div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
                     <span class="input-group-addon" style="font-weight: bold" id="basic-addon1">职位名称</span>
-                    <input type="text" id="jn_name" name="jn_name" class="form-control" placeholder="职位名称" aria-describedby="basic-addon1">
+                    <input type="text" id="jn_name" required="required" name="jn_name" class="form-control" placeholder="职位名称" aria-describedby="basic-addon1">
                     <span class="input-group-btn">
                         <button class="btn btn-info" id="sel_job_tem" type="button"><span style="font-weight: bold">选择工作模板</span></button>
                     </span>
@@ -159,7 +159,7 @@
                         <h3 class="panel-title">职位描述</h3>
                       </div>
                       <div class="panel-body" style="padding: 0px;">
-                        <textarea name="jn_describe" required="True" id="jn_describe" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位描述"></textarea>
+                        <textarea name="jn_describe" required="required" id="jn_describe" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位描述"></textarea>
                       </div>
 
                     </div>
@@ -170,19 +170,25 @@
                         <h3 class="panel-title">职位要求</h3>
                       </div>
                       <div class="panel-body" style="padding: 0px;">
-                        <textarea name="jn_require" id="jn_require" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位要求"></textarea>
+                        <textarea name="jn_require" id="jn_require" required="required" style="border: 0px;resize: none;" rows="8" class="form-control" placeholder="职位要求"></textarea>
                       </div>
                     </div>
                 </div>
 
 				<div class="form-group">
 					<div class="col-lg-6">
-                        <div class="input-group">
-                          <span class="input-group-btn">
-                              <button class="btn btn-info" type="button"><span style="font-weight: bold">选择测试模型</span></button>
-                          </span>
-                          <input type="text" name="jn_model" id="jn_model" class="form-control" placeholder="请选择">
-                        </div><!-- /input-group -->
+                        <!--<div class="input-group">-->
+                          <!--<span class="input-group-btn">-->
+                              <!--<button class="btn btn-info" type="button"><span style="font-weight: bold">选择测试模型</span></button>-->
+                          <!--</span>-->
+                          <!--<input type="text" name="jn_model" id="jn_model" class="form-control" placeholder="请选择">-->
+                        <!--</div>&lt;!&ndash; /input-group &ndash;&gt;-->
+
+                        <div class="form-group col-xs-12" style="padding: 0px 10px;">
+                            <span style="float: left;width: 30%;">选择测试模型：</span>
+                            <select id="jn_md_select" class="form-control " style="float: left;" name="jn_md_select"></select>
+                        </div>
+
                     </div><!-- /.col-lg-6 -->
 				</div>
             </div>
@@ -197,22 +203,28 @@
 
 
 <!--获取职位模板-->
-<div class="modal fade" id="select_job_template" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="select_job_template" style="height: 400px;" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header" style="height: 56px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 class="modal-title" id="" style="font-weight: bold">选择职位名称</h4>
             </div>
-            <div class="modal-body" style="height: 400px;">
-                <div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >
-                    <span class="input-group-addon" style="font-weight: bold">选择职位模板</span>
-                    <input type="text" id="jn_temp" name="jn_temp" class="form-control" placeholder="职位模板" aria-describedby="basic-addon1">
-                </div>
+            <!--<div class="modal-body" style="height: 400px;">-->
+                <!--<div class="input-group col-xs-12" style="margin-bottom:15px;padding: 0px 10px" >-->
+                    <!--<span class="input-group-addon" style="font-weight: bold">选择职位模板</span>-->
+                    <!--&lt;!&ndash;<input type="text" id="jn_temp" name="jn_temp" class="form-control" placeholder="职位模板" aria-describedby="basic-addon1">&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="modal-body" style="height: 100px; padding: 0px 10px;">
+                <span style="float: left; margin: 5px 0px 5px 0px;">选择职位模板：</span>
+                <select id="job_sel" class="form-control " style="float: left;" name="te_jn_select">
+                <!--<option id="no_option" value="0">待定</option>&ndash;&gt;-->
+                </select>
             </div>
             <div class="form-group modal-footer" style="height: 65px;">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true"></span>关闭</button>
-                <button type="submit" id="submit_add_temp" class="btn btn-primary" data-dismiss="modal"><span aria-hidden="true"></span>保存</button>
+                <button type="submit" id="submit_add_temp" class="btn btn-primary" data-dismiss="modal"><span aria-hidden="true"></span>确定</button>
             </div>
         </div>
     </div>
@@ -230,8 +242,38 @@
 
     // 添加jobneed，弹框
     $('#btn_add').click(function () {
-         $('#myModalLabel').text('新增职位需求')
-         $('#Modal_add').modal();
+        // ajax获取测试模型列表
+        $.ajaxSetup({data:{csrfmiddlewaretoken:'{{ csrf_token }}'}})
+        $.ajax({
+            type:'POST',
+            url: '/cjb/get_job_list/',
+            dataType: 'JSON',
+            success(data1) {
+                // alert('success')
+                var data = JSON.parse(data1)    //
+                // console.log(data,data.length,data.constructor,data[0].id)
+                $('#jn_md_select').empty()
+                $('#jn_md_select').append('<option class="mo_jb_0" value="0">待定</option>')
+                if(data.length == 0){
+                    $('#jn_md_select').append('<option id="no_option" value="0">'+'没有找到测试模型'+'</option>')
+                }
+                else{
+                    // 用下面的for-in也可以达到目的
+                    for(var jn in data){
+                        // console.log(data[jn].id,data[jn].moding_id__name,data[jn].jobname,'-123---')
+                        $('#jn_md_select').append('<option class=mo_jb_'+ data[jn].id +' value='+data[jn].moding_id+'>'+data[jn].moding_id__name+'</option>')
+                    }
+                }
+                $('#myModalLabel').text('新增测试人员')
+                $('#Modal_add').modal();
+            },error(data){
+                alert('fail')
+            }
+        });
+
+
+
+
     });
 
     // 提交职位需求
@@ -239,7 +281,7 @@
         var jn_name = $('#jn_name').val()
         let jn_desc = $('#jn_describe').val()
         let jn_requ = $('#jn_require').val()
-        let jn_model = $('#jn_model').val()
+        let jn_model = $('#jn_md_select option:selected').val()
         let data_jn_add = {'jn_name':jn_name, 'jn_desc':jn_desc, 'jn_requ':jn_requ, 'jn_model':jn_model, }
 
         console.log(data_jn_add,'----data_jn_add--------')
@@ -259,8 +301,44 @@
 
     // 选择jobneed模板 模态框
     $('#sel_job_tem').click(function () {
-         $('#select_job_template').modal();
-    });
+        // ajax获取职位模板列表
+        $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}})
+        $.ajax({
+            type: 'POST',
+            url: '/cjb/get_job_list/',
+            dataType: 'JSON',
+            success(data1) {
+                // alert('success')
+                var data = JSON.parse(data1)    //
+                // console.log(data,data.length,data.constructor,data[0].id)
+                $('#job_sel').empty()
+                if (data.length == 0) {
+                    $('#job_sel').append('<option id="no_option" value="0">' + '没有找到职位模板' + '</option>')
+                } else {
+                    for (var jb in data) {
+                        // console.log(data[jb].id, data[jb].jobname, '-1234---')
+                        $('#job_sel').append('<option value=' + data[jb].id + '>' + data[jb].jobname + '</option>')
+                    }
+                }
+                $('#select_job_template').modal();
+            }, error(data) {
+                alert('fail')
+            }
+        });
+    })
+    // 确认工作模板
+    $('#submit_add_temp').click(function () {
+        var job_id =  $('#job_sel option:selected').val()
+        var job_text = $('#job_sel option:selected').text()
+        $('#jn_name').val(job_text)
+        $('#jn_md_select option').removeAttr('selected')
+        $('#jn_md_select').find('option[class="mo_jb_'+job_id+'"]').attr('selected',true)
+        console.log(job_id,job_text,'---23445---')
+        // $('#md_option').get(0).selectedIndex = 'mo_jb_'+job_id
+        // $('#md_option').val('3')
+        // $('#mo_jb_'+job_id)
+    })
+
 
     // 删除jobneed
     $('#jn_del').click(function () {

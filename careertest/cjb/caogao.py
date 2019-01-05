@@ -16,7 +16,6 @@ c=Value(Tester.objects.filter(Q(status=1) & Q(jobneed_id=F("jobneed_id_id"))), o
 <QuerySet [{'create_hr_id_id': 1, 'sex': True, 'jobneed_id_id': 5, 'status': 2, 'name': '小明', 'id': 1, 'isdelete': False, 'comment': 'qqqqqqqqq'}, {'create_hr_id_id': 2, 'sex': True, 'jobneed_id_id': 5, 'status': 1, 'name': '小红', 'id': 2, 'isdelete': False, 'comment': 'ssssssssssss'}, {'create_hr_id_id': 1, 'sex': True, 'jobneed_id_id': 5, 'status': 1, 'name': '刘八', 'id': 4, 'isdelete': False, 'comment': 'ssssssssdfwedfgsertgdfg'}]>
 
 
-
 e = Jobneed.objects.filter(tester__status=1).values()
 
 Jobneed.objects.aggregate(c_invite=Count('tester', filter=Q(tester__status=2)),c_tested=Count('tester', filter=Q(tester__status=3)),c_offer=Count('tester', filter=Q(tester__status=4)))
