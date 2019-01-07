@@ -22,7 +22,7 @@ def jobneed2(request):
 
 
 def main(request):
-    return render(request, 'cjb/base_hr2.html')
+    return render(request, 'cjb/company2.html')
 
 
 def company(request):
@@ -30,7 +30,7 @@ def company(request):
 
 
 def jobneed_query(request):
-    if request.is_ajax():
+    # if request.is_ajax():
         # jns = Jobneed.objects.values('id', 'create_hr_id__user', 'create_time', 'jobneed_name', 'jobneed_status')
         # # 遍历元素获取每个职位需求的各种状态的数据
         # for jn in jns:
@@ -39,17 +39,17 @@ def jobneed_query(request):
         #     c_selected = Tester.objects.filter(Q(jobneed_id=jn['id']) & Q(status=4)).count()
         #     jn.update({'c_invite': c_invite, 'c_tested': c_tested, 'c_offer': c_selected})
 
-        # 下面这个语句也可以直接获取到每个职位需求的各种状态的数据
-        jns = Jobneed.objects.filter(isdelete=False).annotate(c_invite=Count('tester', filter=Q(tester__status__gte=1)),
-                                       c_tested=Count('tester', filter=(Q(tester__status__gte=2)&Q(tester__status__lte=3))),
-                                       c_selected=Count('tester', filter=(Q(tester__status=3))),
-                                       c_deselect=Count('tester', filter=Q(tester__status=4))).order_by('-id')
+    # 下面这个语句也可以直接获取到每个职位需求的各种状态的数据
+    jns = Jobneed.objects.filter(isdelete=False).annotate(c_invite=Count('tester', filter=Q(tester__status__gte=1)),
+                                   c_tested=Count('tester', filter=(Q(tester__status__gte=2)&Q(tester__status__lte=3))),
+                                   c_selected=Count('tester', filter=(Q(tester__status=3))),
+                                   c_deselect=Count('tester', filter=Q(tester__status=4))).order_by('-id')
 
-        print(jns, '-------jns-----')
-        context = {'ob_jns': jns}
-        return render(request, 'cjb/jobneed2.html', context)
-    else:
-        return redirect('/cjb/main/')
+    print(jns, '-------jns-----')
+    context = {'ob_jns': jns}
+    return render(request, 'cjb/jobneed2.html', context)
+    # else:
+    #     return redirect('/cjb/main/')
 
 
 def jobneed_add(request):
@@ -97,7 +97,11 @@ def jobneed_add(request):
 
 
 def jobneed_edit(request):
-    return render(request, 'cjb/jobneed.html')
+    return render(request, 'cjb/jobneed2.html')
+
+
+def jobneed_detail(request):
+    return render(request, 'cjb/jobneed2.html')
 
 
 def jobneed_del(request):
@@ -165,7 +169,7 @@ def tester_add(request):
     try:
         invite = request.POST.get('te_invite')
         print(invite, 'invite----')
-        if invite != ('' or None):
+        if invite == ('' or None):
             te.status = 0
         else:
             te.status = 1
@@ -174,8 +178,8 @@ def tester_add(request):
 
     te.save()
     print(te, 'testeradd-------')
-    return render(request, 'cjb/tester.html')
-
+    # return render(request, 'cjb/tester.html')
+    return redirect('/cjb/tester/')
 
 def tester_edit(request):
     return render(request, 'cjb/tester.html')

@@ -1,8 +1,11 @@
+{% extends './base_hr.html' %}
+
+{% block pg_head %}
 
 <!--样式引用自己写的文件或直接写在headblock中的style中都行-->
 <!--<link rel="stylesheet" type="text/css" href="/static/css/cjb/jobneed.css" charset="utf8">-->
 
-<div>
+<!--<div>-->
     <style xmlns="http://www.w3.org/1999/html">
         p{
             margin:0px;
@@ -65,7 +68,11 @@
         }
 
     </style>
+{% endblock %}
 
+
+
+{% block pg_body %}
     <div>
         <div class="btn-group col-xs-4" style="padding-left: 0px;" role="group" aria-label="...">
             <button type="button" id="btn_add" class="btn btn-default">新增求职者</button>
@@ -135,7 +142,7 @@
                     <a href="#">查看</a>
                     <a href="#">编辑</a>
                     <a href="#">删除</a>
-                    {% if te.status < 1 %}<a href="#">邀请测试</a>{% elif te.status > 1 %}<a href="#">查看测试报告</a>{% endif %}
+                    {% if te.status < 1 %}<a href="#">邀请测试</a>{% elif te.status == 1 %}<a href="#">查看测试题目</a>{% elif te.status > 1 %}<a href="#">查看测试报告</a>{% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -226,7 +233,9 @@
 
 <div class="alert"></div>
 
+{% endblock %}
 
+{% block pg_script %}
     <!--调用自己写的脚本，或直接在下面写都行-->
     <!--<script type="text/javascript" src="/static/js/cjb/jobneed.js"></script>-->
 
@@ -323,5 +332,7 @@
 
     </script>
 
-</div>
+{% endblock %}
+
+<!--</div>-->
 
