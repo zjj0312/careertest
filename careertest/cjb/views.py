@@ -46,7 +46,9 @@ def jobneed_query(request):
                                    c_deselect=Count('tester', filter=Q(tester__status=4))).order_by('-id')
 
     print(jns, '-------jns-----')
-    context = {'ob_jns': jns}
+    nav_title = 'jobneed'
+    context = {'ob_jns': jns, 'nav_title': nav_title}
+    print(context, '----jn--context---')
     return render(request, 'cjb/jobneed2.html', context)
     # else:
     #     return redirect('/cjb/main/')
@@ -107,17 +109,17 @@ def jobneed_detail(request):
 def jobneed_del(request):
     if request.is_ajax():
         jn_id = request.POST.get('id')
-    try:
-        jn_tobedel = Jobneed.objects.filter(isdelete=False).get(pk=jn_id)
-        jn_tobedel.isdelete = True
-        jn_tobedel.save()
-        # print(Jobneed.objects.get(pk=jn_id).isdelete,'-----isdelete----')
-        context = {'del_result': 'delete success!'}
-    except Exception:
-        context = {'del_result': 'delete fail!'}
+        try:
+            jn_tobedel = Jobneed.objects.filter(isdelete=False).get(pk=jn_id)
+            jn_tobedel.isdelete = True
+            jn_tobedel.save()
+            # print(Jobneed.objects.get(pk=jn_id).isdelete,'-----isdelete----')
+            context = {'del_result': 'delete success!', 'del_id': jn_id}
+        except Exception:
+            context = {'del_result': 'delete fail!'}
 
-    # return HttpResponse(context)
-    return JsonResponse(context)
+        # return HttpResponse(context)
+        return JsonResponse(context)
 
 
 def get_jobneed_list(request):
@@ -133,13 +135,22 @@ def get_job_list(request):
     if request.is_ajax():
         jbs = Job.objects.filter(isdelete=False).values('id', 'jobname', 'moding_id', 'moding_id__name')
         context = json.dumps(list(jbs))
-        # print(context, '-----contest------')
+        print(context, '-----get_job_list------')
+    return JsonResponse(context, safe=False)
+
+
+def get_te_list(request):
+    if request.is_ajax():
+        jn_id = request.POST.get('jn_id')
+        tes = Tester.objects.filter(status=0).filter(Q(jobneed_id=None)|Q(jobneed_id=jn_id)).values('name', 'id')
+        context = json.dumps(list(tes))
+        print(context, '---tes---')
     return JsonResponse(context, safe=False)
 
 
 def tester_query(request):
-    tes = Tester.objects.filter().order_by('-id').values('create_hr_id__user', 'status', 'sex', 'jobneed_id__jobneed_name', 'name')
-    context = {'obj_tes': tes}
+    tes = Tester.objects.filter(isdelete=False).order_by('-id').values('id','create_hr_id__user', 'status', 'sex', 'jobneed_id__jobneed_name', 'name')
+    context = {'obj_tes': tes, 'nav_title': 'tester'}
     # print(context, '---testquery---')
     return render(request, 'cjb/tester.html', context)
 
@@ -181,12 +192,41 @@ def tester_add(request):
     # return render(request, 'cjb/tester.html')
     return redirect('/cjb/tester/')
 
+
 def tester_edit(request):
     return render(request, 'cjb/tester.html')
 
 
 def tester_del(request):
-    return render(request, 'cjb/tester.html')
+    if request.is_ajax():
+        te_id = request.POST.get('id')
+        try:
+            te = Tester.objects.filter(isdelete=False).get(pk=int(te_id))
+            te.isdelete = True
+            # te.save()
+            # print(Jobneed.objects.get(pk=jn_id).isdelete,'-----isdelete----')
+            context = {'del_result': 'delete success!', 'del_id': te_id}
+        except Exception:
+            context = {'del_result': 'delete fail!'}
+
+        # return HttpResponse(context)
+        return JsonResponse(context)
+
+
+def sub_invite_te_from_jn(request):
+    jn_id = request.POST.get('invite_te_jn_id')
+    te_id = request.POST.get('jn_select_te')
+    print(jn_id,te_id,'----')
+    te = Tester.objects.get(pk=int(te_id))
+    te_jn = Jobneed.objects.get(pk=int(jn_id))
+    te.jobneed_id = te_jn
+    te.status = 1
+    te.save()
+    return redirect('/cjb/jobneed/')
+
+
+def sub_invite_te_from_tester(request):
+    return redirect('/cjb/tester/')
 
 
 def login(request):

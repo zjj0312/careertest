@@ -5,7 +5,7 @@
     <script type="text/javascript" src="/static/js/cjb/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/cjb/bootstrap.css">
     <link rel="">
-    <title>职位需求</title>
+    <!--<title>职位需求</title>-->
 
     {% block pg_head %}{% endblock %}
 
@@ -18,10 +18,10 @@
         </div>
         <div class="col-xs-3">
             <ul class="nav nav-pills nav-stacked" id="nav_list_left">
-                <li role="presentation"><a href="/cjb/company/">公司简介</a></li>
-                <li role="presentation"><a href="/cjb/jobneed/">职位需求</a></li>
-                <li role="presentation"><a href="/cjb/tester/">测试者</a></li>
-                <li role="presentation"><a href="/cjb/jobneed/">Messages</a></li>
+                <li role="presentation" {% if nav_title == 'company' %}class="active"{% endif %} ><a href="/cjb/company/ " >公司简介</a></li>
+                <li role="presentation" {% if nav_title == 'jobneed' %}class="active"{% endif %} ><a href="/cjb/jobneed/" >职位需求</a></li>
+                <li role="presentation" {% if nav_title == 'tester' %}class="active"{% endif %}><a href="/cjb/tester/" >面试者</a></li>
+                <!--<li role="presentation" {% if nav_title == 'message' %}class="active"{% endif %}><a href="/cjb/jobneed/"  >Messages</a></li>-->
             </ul>
         </div>
 
@@ -60,5 +60,7 @@
 
     {% block pg_script %}{% endblock %}
 
-
+    <script>
+        // console.log({{ nav_title }},'----nav_title----')
+    </script>
 </html>

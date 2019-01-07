@@ -4,6 +4,7 @@
 
 <!--样式引用自己写的文件或直接写在headblock中的style中都行-->
 <!--<link rel="stylesheet" type="text/css" href="/static/css/cjb/jobneed.css" charset="utf8">-->
+    <title>tester</title>
 
 <!--<div>-->
     <style xmlns="http://www.w3.org/1999/html">
@@ -131,18 +132,20 @@
                 <td>操作</td>
             </tr>
             {% for te in obj_tes %}
-            <tr class="tester_td_body">
+            <tr class="tester_td_body" id="tester_{{ te.id }}">
                 <td>{{ forloop.counter }}</td>
                 <td>{{ te.name }}</td>
                 <td>{% if te.sex == True %}男{% else %}女{% endif %}</td>
-                <td>{% if te.status == 0 %}未邀请测试{% elif te.status == 1 %}已邀请测试{% elif te.status == 2 %}测试完成{% elif te.status == 3 %}通过测试{% else %}淘汰{% endif %}</td>
+                <td>{% if te.status == 0 %}未邀请测试{% elif te.status == 1 %}已邀请测试{% elif te.status == 2 %}已完成测试{% elif te.status == 3 %}通过测试{% else %}淘汰{% endif %}</td>
                 <td>{{ te.jobneed_id__jobneed_name }}</td>
                 <!--<td>{{ te.create_hr_id__user }}</td>-->
                 <td>
-                    <a href="#">查看</a>
-                    <a href="#">编辑</a>
-                    <a href="#">删除</a>
-                    {% if te.status < 1 %}<a href="#">邀请测试</a>{% elif te.status == 1 %}<a href="#">查看测试题目</a>{% elif te.status > 1 %}<a href="#">查看测试报告</a>{% endif %}
+                    <a href="javascript:void(0);" id="tester_detail_{{ te.id }}">查看</a>
+                    <a href="javascript:void(0);" id="tester_edit_{{ te.id }}">编辑</a>
+                    <a href="javascript:void(0);" id="tester_del_{{ te.id }}">删除</a>
+                    {% if te.status < 1 %}<a href="#">邀请测试</a>
+                    {% elif te.status == 1 %}<a href="#">查看测试题目</a>
+                    {% elif te.status > 1 %}<a href="#">查看测试报告</a>{% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -306,20 +309,30 @@
          $('#select_job_template').modal();
     });
 
-    // 删除jobneed
-    $('#jn_del').click(function () {
-        let conf_del = confirm('确定要删除此条职位记录吗？被邀请的相关测试人员也都将被删除！')
-        let jn_id = $('#jobneed_id').val()
+    // 删除tester
+    $('[id^=tester_del_]').click(function () {
+        let conf_del = confirm('确定要删除此条面试者记录吗？相关测试报告也都将被删除！')
+        let te_id = $(this).attr('id').match(/tester_del_(\d*)/)[1]
+        console.log(conf_del,te_id,'---te del---')
         if (conf_del){
             $.ajaxSetup({data:{csrfmiddlewaretoken: '{{ csrf_token }}'}})
             $.ajax({
                 type: 'POST',
-                url: '/cjb/jobneed_del/',
+                url: '/cjb/tester_del/',
                 dataType: 'json',    //后台用return JsonResponse()
                 // dataType: 'text',       //后台用return HttpResponse()
-                data: {'id':jn_id},
+                data: {'id':te_id},
                 success: function(result) {
                     console.log(result,'----success----');
+                    var te_id = 'tester_'+result.del_id
+                    // var next_tr = $('#'+te_id).nextAll().filter('tr').children('td')[0]
+                    var next_trs_td = $('#'+te_id).nextAll().find('td:eq(1)')
+                    console.log(next_trs_td,'---next-trs---')
+                    for (td in next_trs_td) {
+                        console.log(td.attr('innerText'),'---next-tr---')
+                    }
+
+                    $('#'+te_id).remove()
                     $('.alert').html(result.del_result).addClass('alert-success').show().delay(2500).fadeOut();
                 },error: function(result) {
                     console.log(result,'----error---');

@@ -27,5 +27,5 @@ class Tester(models.Model):
     sex=models.BooleanField(default=True)
     comment=models.CharField(max_length=1024)
     create_hr_id = models.ForeignKey(to=UserHR, on_delete=models.CASCADE, null=True, blank=True)   # 创建人，可以关联到hr
-    status=models.IntegerField(default=1)  # 求职者状态，1：已邀请测试，0：未邀请测试，2：测试完成，3：通过测试，4：淘汰
+    status=models.IntegerField(default=1)  # 求职者状态，0：未邀请测试，1：已邀请测试，2：测试完成，3：通过测试，4：淘汰
     isdelete=models.BooleanField(default=False)
