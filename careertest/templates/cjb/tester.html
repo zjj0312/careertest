@@ -326,11 +326,14 @@
                     console.log(result,'----success----');
                     var te_id = 'tester_'+result.del_id
                     // var next_tr = $('#'+te_id).nextAll().filter('tr').children('td')[0]
-                    var next_trs_td = $('#'+te_id).nextAll().find('td:eq(1)')
-                    console.log(next_trs_td,'---next-trs---')
-                    for (td in next_trs_td) {
-                        console.log(td.attr('innerText'),'---next-tr---')
+                    var next_trs_td = $('#'+te_id).nextAll().find('td:eq(0)')
+                    if(next_trs_td.length != 0){
+                        console.log(next_trs_td,'---next-trs---')
+                        for (var i = 0;i < next_trs_td.length;i++) {
+                            next_trs_td[i].innerHTML -= 1
+                        }
                     }
+
 
                     $('#'+te_id).remove()
                     $('.alert').html(result.del_result).addClass('alert-success').show().delay(2500).fadeOut();

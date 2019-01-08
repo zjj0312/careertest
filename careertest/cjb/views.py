@@ -203,7 +203,7 @@ def tester_del(request):
         try:
             te = Tester.objects.filter(isdelete=False).get(pk=int(te_id))
             te.isdelete = True
-            # te.save()
+            te.save()
             # print(Jobneed.objects.get(pk=jn_id).isdelete,'-----isdelete----')
             context = {'del_result': 'delete success!', 'del_id': te_id}
         except Exception:
